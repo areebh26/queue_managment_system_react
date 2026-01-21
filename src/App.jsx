@@ -6,7 +6,23 @@ import InputForm from './components/inputForm'
 import QueueDisplay from './components/queueDisplay'
 
 function App() {
-  
+  let [queue, setQueue] = useState([]);
+  function addToQueue(customer){
+    setQueue([...queue,customer])
+  }
+function removeFromQueue(id){
+    setQueue(queue.filter((customer)=>
+       customer.id!==id
+    ))
+  }
+
+function updateStatus(id,newStatus){
+    setQueue(queue.map((customer) =>
+  customer.id === id ? { ...customer, status: newStatus } : customer
+));
+
+}
+
 
   return (
     <>
@@ -14,8 +30,10 @@ function App() {
           <h1>Queue Management System</h1>
           <p>Manage your customers efficiently</p>
           <div className='flex-container'>
-            <InputForm></InputForm>
-            <QueueDisplay></QueueDisplay>
+            <InputForm addToQueue={addToQueue}></InputForm>
+            <QueueDisplay queue={queue}
+            removeCustomer={removeFromQueue}
+            changeStatus={updateStatus}></QueueDisplay>
           </div>
           
    </div>
